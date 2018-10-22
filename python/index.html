@@ -1,0 +1,255 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Python定时发送信息到微信</title>
+    <meta name="description" content="hello">
+    
+    <meta name="keywords" content="super duper SEO">
+    <link rel="preload" href="/assets/css/0.styles.d2e238d0.css" as="style"><link rel="preload" href="/assets/js/app.ea6b4ebc.js" as="script"><link rel="preload" href="/assets/js/15.a032c14e.js" as="script"><link rel="prefetch" href="/assets/js/9.ca248961.js"><link rel="prefetch" href="/assets/js/2.cda51ec0.js"><link rel="prefetch" href="/assets/js/3.4b7a059d.js"><link rel="prefetch" href="/assets/js/4.39b1ef17.js"><link rel="prefetch" href="/assets/js/5.64fc4939.js"><link rel="prefetch" href="/assets/js/6.5d98b823.js"><link rel="prefetch" href="/assets/js/7.b9b2d90f.js"><link rel="prefetch" href="/assets/js/8.18387eef.js"><link rel="prefetch" href="/assets/js/10.6de2385b.js"><link rel="prefetch" href="/assets/js/11.8f81be40.js"><link rel="prefetch" href="/assets/js/12.2366e6b7.js"><link rel="prefetch" href="/assets/js/13.b950f459.js"><link rel="prefetch" href="/assets/js/14.64d6e7ef.js"><link rel="prefetch" href="/assets/js/16.4783cae8.js"><link rel="prefetch" href="/assets/js/17.3a95d175.js"><link rel="prefetch" href="/assets/js/18.154c0f26.js"><link rel="prefetch" href="/assets/js/19.901abca1.js"><link rel="prefetch" href="/assets/js/20.7156486e.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.d2e238d0.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container no-sidebar"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"></a> <div class="links" style="max-width:nullpx;"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <!----></div></header> <div class="sidebar-mask"></div> <div class="sidebar"><!---->  <!----> </div> <div class="page"> <div class="content"><p>1.想要一个定时提醒天气情况的场景，就想到了用python，这个是基于wxpy 来实现的</p> <p>注意点：</p> <div class="language- extra-class"><pre class="language-text"><code>   需要安装对应插件包
+   python2 和 python3 有引入包不一样注意环境
+   想在服务器一直运行 可以参考 tmux
+</code></pre></div> <p>代码如下：</p> <div class="language- extra-class"><pre class="language-text"><code># -*- coding: utf-8 -*
+import time
+import random
+import requests
+from wxpy import *
+import socket
+import http
+import  json
+import urlparse
+#from urllib.parse import urlencode
+import datetime
+import urllib
+from threading import Timer
+from datetime import datetime
+
+import sys
+reload(sys)
+sys.setdefaultencoding('utf8')
+
+def get_everydayWords():
+    url = 'http://open.iciba.com/dsapi/'
+    r = requests.get(url)
+    content = json.loads(r.text)
+    return '每日一句：\n'+content['content'] +'\n'+content['note'] + &quot;\n&quot;
+
+def get_huangli():
+    data = {}
+    data[&quot;appkey&quot;] = ''  //填写自己申请的key  地址：jisuapi.com
+    data[&quot;year&quot;] = datetime.now().year
+    data[&quot;month&quot;] = datetime.now().month
+    data[&quot;day&quot;] = datetime.now().day
+    url_values =urllib.urlencode(data)
+    url = &quot;http://api.jisuapi.com/huangli/date&quot; + &quot;?&quot; + url_values
+    r = requests.get(url)
+    jsonarr = json.loads(r.text)
+    if jsonarr[&quot;status&quot;] != u&quot;0&quot;:
+        print(jsonarr[&quot;msg&quot;])
+        return &quot;今日无黄历信息&quot;
+    result = jsonarr[&quot;result&quot;]
+    xingqi = '星期' + result['week']
+    yangli = '阳历日期：' + result['yangli']
+    nongli = '农历日期：' + result['nongli']
+    wuxing = '今日五行：' + result['wuxing']
+    chong ='今日注意的生肖:' + result[&quot;chong&quot;]
+    suici = '岁次：' + ','.join(result['suici'])
+    star = '本月星座：' + result['star']
+    shengxiao = '今年生肖：' + result['shengxiao']
+    yi = '宜：' + ','.join(result['yi'])
+    ji = '忌：' + ','.join(result['ji'])
+    return xingqi + '黄历：' + '\n'  +  '\n' + yangli + '\n' + nongli + '\n' + wuxing + '\n' + chong + &quot;\n&quot; + suici + &quot;\n&quot; + star + &quot;\n&quot; + shengxiao + &quot;\n&quot; + yi + &quot;\n&quot; + ji + &quot;\n&quot;
+
+def get_html(url, data=None):
+    # 模拟浏览器来获取网页的html代码
+    header = {
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+        'Accept-Encoding': 'gzip, deflate',
+        'Accept-Language': 'zh-CN,zh;q=0.8',
+        'Connection': 'keep-alive',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.235'
+    }
+    # 设定超时时间，防止被网站认为是爬虫
+    timeout = random.choice(range(80, 180))
+    while True:
+        try:
+            rep = requests.get(url, headers=header, timeout=timeout)
+            rep.encoding = &quot;utf-8&quot;
+            if rep.text[2] != 's':  # 该api调用时有失败的可能，一个简单的判断调用是否成功
+                break
+        except timeout as e:
+            print(&quot;3:&quot;, e)
+            time.sleep(random.choice(range(8, 15)))
+        except socket.error as e:
+            print(&quot;4:&quot;, e)
+            time.sleep(random.choice(range(20, 60)))
+        except http.client.BadStatusLine as e:
+            print(&quot;5:&quot;, e)
+            time.sleep(random.choice(range(30, 80)))
+
+        except http.client.IncompleteRead as e:
+            print(&quot;6:&quot;, e)
+            time.sleep(random.choice(range(5, 15)))
+
+        except:
+            print ('获取内容失败')
+            time.sleep(10)
+
+    result = ''
+    temp = rep.json()
+    result = rep.json()
+    nowTime=datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+    result = result['data']
+    ondeday = result['yesterday']
+
+    result2 = '今日'+ ondeday['date'] + '\n' \
+    + '温度：'+ ondeday['low'] + ' --- ' + ondeday['high'] + '\n' \
+    + '日出：' + ondeday['sunrise'] + ' --- ' + '日落：' + ondeday['sunset'] + '\n' \
+    + '风向：' + ondeday['fx'] + ' --- ' + ondeday['fl'] + '\n' \
+    + '天气：' + ondeday['type'] + '\n' \
+    + '提示：' + ondeday['notice'] + '\n' \
+    + '湿度：' + result['shidu'] + '\n' \
+    + '空气质量：' + result['quality'] + '\n' \
+    + 'pm25：' + str(result['pm25']) + '\n' \
+    + '------------------------------'  + '\n'
+    for item in result['forecast']:
+      result2 =  result2 + '日期：'+item['date'] + '\n' \
+        + '风力：' + item['fl'] + '\n' \
+        + '风向：' + item['fx'] + '\n' \
+        + '最高温：' + item['high'] + '\n' \
+        + '最低温：' + item['low'] + '\n' \
+        + '温馨提醒：' + item['notice'] + '\n' \
+        + '日出时间：' + item['sunrise'] + '\n' \
+        + '日落时间：' + item['sunset'] + '\n' \
+        + '天气：' + item['type'] + '\n' \
+        + '------------------------------' + '\n' \
+
+    result2 =  result2 + '发送时间：' +  nowTime +  '\n'
+    return result2
+
+def get_now(city, data=None):
+    # 模拟浏览器来获取网页的html代码
+    header = {
+        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
+        'Accept-Encoding': 'gzip, deflate',
+        'Accept-Language': 'zh-CN,zh;q=0.8',
+        'Connection': 'keep-alive',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/43.0.235'
+    }
+
+    url = 'https://free-api.heweather.com/s6/weather/now?location='+city+'&amp;key=614d3a7941034ba48088f689788e789f'
+
+    # 设定超时时间，防止被网站认为是爬虫
+    timeout = random.choice(range(80, 180))
+    while True:
+        try:
+            rep = requests.get(url, headers=header, timeout=timeout)
+            rep.encoding = &quot;utf-8&quot;
+            if rep.text[2] != 's':  # 该api调用时有失败的可能，一个简单的判断调用是否成功
+                break
+        except timeout as e:
+            print(&quot;3:&quot;, e)
+            time.sleep(random.choice(range(8, 15)))
+        except socket.error as e:
+            print(&quot;4:&quot;, e)
+            time.sleep(random.choice(range(20, 60)))
+        except http.client.BadStatusLine as e:
+            print(&quot;5:&quot;, e)
+            time.sleep(random.choice(range(30, 80)))
+
+        except http.client.IncompleteRead as e:
+            print(&quot;6:&quot;, e)
+            time.sleep(random.choice(range(5, 15)))
+
+        except:
+            print ('获取内容失败')
+            time.sleep(10)
+
+    result = ''
+    temp = rep.json()
+    temp = temp['HeWeather6'][0]
+    update = temp['update']
+    now = temp['now']
+    nowTime=datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+
+    result = '实时天气预报---' + '更新时间：'+ update['loc'] + '\n'+'\n'\
+    + '当前天气：'+ now['cond_txt'] + '\n'\
+    + '当前温度：'+ now['tmp'] + '°C' + '\n'\
+    + '体感温度：'+ now['fl'] + '°C' + '\n'\
+    + '风向：'+ now['wind_dir'] + ' ' + now['wind_sc'] + '级 '+ now['wind_spd'] + '公里/小时'+ '\n'\
+    + '相对湿度：'+ now['hum'] + '%' + '\n'\
+    + '降水量：'+ now['pcpn'] + 'ml' + '\n'\
+    + '能见度：'+ now['vis'] + '公里' + '\n'\
+    + '云量：'+ now['cloud']  + '\n'
+
+    result =  result + '发送时间：' +  nowTime 
+    return result
+
+def auto_send():  # unix时间戳设定为每天早上7：30分自动发送消息
+    while True:
+        time_now = int(time.time())
+        now = datetime.now()
+        now_str = now.strftime('%Y/%m/%d %H:%M:%S')[11:]
+
+        t = Timer(1,auto_send)
+        # t.start()
+        print(now_str)
+        #发送全部  7点24 发送 每天早上
+        if now_str in ['07:24:00']:
+            for i in ['苏州']:
+                url = 'https://www.sojson.com/open/api/weather/json.shtml?city=%s' %i
+                weather = get_html(url) 
+                word = get_everydayWords()
+                huangli = get_huangli()
+                # 选择对象发送消息
+                bot.file_helper.send(weather)
+                print(bot.groups().search(u''))
+                my_friend = bot.friends().search(u'Lie')[0]
+                my_friend2 = bot.friends().search(u'cc')[0]
+                # my_group = bot.groups().search('Test')[0]
+                my_friend.send(word + weather + huangli)
+                my_friend2.send(word + weather + huangli)
+                my_group.send(word + weather + huangli)
+
+        if now_str in ['09:00:00','10:00:00','11:00:00','12:00:00','13:00:00','14:00:00','15:00:00','16:00:00','16:08:00','17:00:00','18:00:00','19:00:00','20:00:00','21:00:00',]:
+            city = '苏州'
+            
+            weather = get_now(url) 
+ 
+            word = get_everydayWords()
+            huangli = get_huangli()
+
+            # 选择对象发送消息
+            bot.file_helper.send(weather)   // 这是发送给登陆微信的微信助手
+            print(bot.groups().search(u''))
+            my_friend = bot.friends().search(u'Lie')[0]  // 好友
+            my_friend2 = bot.friends().search(u'cc')[0]
+            my_group = bot.groups().search('Test')[0] // 群组
+            my_friend.send(weather)
+            my_friend2.send(weather)
+            my_group.send(weather)
+
+
+if __name__ == &quot;__main__&quot;:
+    tuling = Tuling(api_key='') //填写自己的图灵机器人key
+    bot = Bot(cache_path=True,console_qr = True)  // 添加缓存，不用每次都扫码登陆，如果是linux 则显示二维码，需安装对应插件包
+    myself = bot.self
+    bot.enable_puid('wxpy_puid.pkl')
+    
+    @bot.register(msg_types=TEXT)  // 图灵机器人调用    
+    def auto_reply_all(msg):
+        tuling.do_reply(msg)
+        
+    auto_send()
+
+    bot.join()
+
+</code></pre></div></div> <div class="page-edit"><!----> <!----></div> <!----> </div> <!----></div></div>
+    <script src="/assets/js/15.a032c14e.js" defer></script><script src="/assets/js/app.ea6b4ebc.js" defer></script>
+  </body>
+</html>
