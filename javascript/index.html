@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="zh">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <title>Javascript基础知识 | 学习笔记</title>
+    <meta name="description" content="hello">
+    <link rel="shortcut icon" type="image/x-icon" href="./favicon.ico">
+    <meta name="keywords" content="super duper SEO">
+    <link rel="preload" href="/assets/css/0.styles.f781a0c2.css" as="style"><link rel="preload" href="/assets/js/app.40389dcf.js" as="script"><link rel="preload" href="/assets/js/9.b11679bb.js" as="script"><link rel="prefetch" href="/assets/js/10.3fb0be17.js"><link rel="prefetch" href="/assets/js/11.728d589e.js"><link rel="prefetch" href="/assets/js/12.f0a2ae47.js"><link rel="prefetch" href="/assets/js/13.86bc629c.js"><link rel="prefetch" href="/assets/js/14.917b7b99.js"><link rel="prefetch" href="/assets/js/15.c945c9a6.js"><link rel="prefetch" href="/assets/js/16.4edfd0ea.js"><link rel="prefetch" href="/assets/js/17.2151e9a1.js"><link rel="prefetch" href="/assets/js/18.561980fb.js"><link rel="prefetch" href="/assets/js/19.c624aff7.js"><link rel="prefetch" href="/assets/js/2.266bf7fe.js"><link rel="prefetch" href="/assets/js/20.f8101da3.js"><link rel="prefetch" href="/assets/js/3.6c82ebcf.js"><link rel="prefetch" href="/assets/js/4.80790ede.js"><link rel="prefetch" href="/assets/js/5.d2d57474.js"><link rel="prefetch" href="/assets/js/6.a1c3866b.js"><link rel="prefetch" href="/assets/js/7.9ea6ae4f.js"><link rel="prefetch" href="/assets/js/8.cbd09a00.js">
+    <link rel="stylesheet" href="/assets/css/0.styles.f781a0c2.css">
+  </head>
+  <body>
+    <div id="app" data-server-rendered="true"><div class="theme-container"><header class="navbar"><div class="sidebar-button"><svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" role="img" viewBox="0 0 448 512" class="icon"><path fill="currentColor" d="M436 124H12c-6.627 0-12-5.373-12-12V80c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12zm0 160H12c-6.627 0-12-5.373-12-12v-32c0-6.627 5.373-12 12-12h424c6.627 0 12 5.373 12 12v32c0 6.627-5.373 12-12 12z"></path></svg></div> <a href="/" class="home-link router-link-active"><!----> <span class="site-name">学习笔记</span></a> <div class="links" style="max-width:nullpx;"><div class="search-box"><input aria-label="Search" autocomplete="off" spellcheck="false" value=""> <!----></div> <nav class="nav-links can-hide"><div class="nav-item"><a href="/" class="nav-link">首页</a></div><div class="nav-item"><a href="/home/" class="nav-link">分类</a></div><div class="nav-item"><a href="http://rooon.co" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  我的博客
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div> <!----></nav></div></header> <div class="sidebar-mask"></div> <div class="sidebar"><nav class="nav-links"><div class="nav-item"><a href="/" class="nav-link">首页</a></div><div class="nav-item"><a href="/home/" class="nav-link">分类</a></div><div class="nav-item"><a href="http://rooon.co" target="_blank" rel="noopener noreferrer" class="nav-link external">
+  我的博客
+  <svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></div> <!----></nav>  <ul class="sidebar-links"><li><div class="sidebar-group first"><p class="sidebar-heading open"><span>Javascript基础知识</span> <!----></p> <ul class="sidebar-group-items"><li><a href="/javascript/#第一章-javascript字符串" class="sidebar-link">第一章 javascript字符串</a><ul class="sidebar-sub-headers"></ul></li></ul></div></li></ul> </div> <div class="page"> <div class="content"><h2 id="第一章-javascript字符串"><a href="#第一章-javascript字符串" aria-hidden="true" class="header-anchor">#</a> 第一章 javascript字符串</h2> <h6 id="_1-0、字符串基本数据类型"><a href="#_1-0、字符串基本数据类型" aria-hidden="true" class="header-anchor">#</a> 1.0、字符串基本数据类型</h6> <div class="language- extra-class"><pre class="language-text"><code>1、javascript字符串可以是一个基本数据类型或者一个对象
+2、与JavaScript中其他四种数据类型并列：数字、布尔、null 和 undefined
+3、作为基本数据类型，字符串也是JavaScript直接量：这是一个集合，包含数字 数组 对象和正则表达式、数字和布尔值的直接量格式
+    
+</code></pre></div><h6 id="_1-0、字符串对象"><a href="#_1-0、字符串对象" aria-hidden="true" class="header-anchor">#</a> 1.0、字符串对象</h6> <div class="language- extra-class"><pre class="language-text"><code>1、字符串对象叫做string，与其他JavaScript对象一样，它拥有预先构建到对象类型中的一组属性
+2、可以使用JavaScript的new运算符来实例化一个string对象，从而创建一个新的对象实例：
+
+   var city = new String(&quot;This is pin&quot;)
+
+3、一旦实例化了，可用的字符串属性的任何一个，都可以通过字符串进行访问，例如：
+
+   var lcCity = city.toLowerCase(); // 将字符串中的大写字母转换成小写   结果：this is pin
+   
+4、如果你没有使用new来访问String构造函数，将会创建一个字符串直接量，而不是一个String对象
+
+    var city = String(&quot;Ar. louis&quot;);
+
+5、如果需要在一个直接量上访问String 对象方法：让JavaScript引擎创建了一个String对象，用它包含了字符串直接量，执行方法调用，然后丢弃掉string对象
+
+6、与使用字符串直接量相比，使用String的时候，要依赖于具体环境，除非你计划使用String对象属性，否则应该尽可能地使用字符串直接量，如果你要使用String方法，那么将字符串创建为对象。
+</code></pre></div><h6 id="_1-1、连接两个或多个-字符串"><a href="#_1-1、连接两个或多个-字符串" aria-hidden="true" class="header-anchor">#</a> 1.1、连接两个或多个 字符串</h6> <div class="language- extra-class"><pre class="language-text"><code>1、问题：想要把两个或者多个字符串合并为一个
+   解决方案：
+       使用相加（+）运算符来连接字符串
+       
+       var str1 = 'ming tian';
+       var str2 = 'qu na li';
+       var str3 = str1 + str2;    // ming tian qu na li
+       
+2、有一个内建的string 方法，可以连接多个字符串，这就是concat,它接受一个或者多个字符串参数，其中每一个都连接到字符串对象的末尾；
+    
+    var str = &quot;&quot; .concat(&quot;ni&quot;,&quot;shi&quot;,&quot;yi&quot;,&quot;zhu&quot;)  //ni shi yi zhu
+</code></pre></div><h6 id="_1-2、连接字符串和另一种数据类型"><a href="#_1-2、连接字符串和另一种数据类型" aria-hidden="true" class="header-anchor">#</a> 1.2、连接字符串和另一种数据类型</h6> <div class="language- extra-class"><pre class="language-text"><code>1、问题：想要把一个字符串和另一种数据类型（如数字）连接起来
+   解决方案：
+   
+   使用与连接字符串的时候完全相同的运算符  +  或者 += 
+   var num = 131
+   var str = &quot;ni shi shui&quot;
+   var strr2 = str + num  //ni shi shui 131
+   
+2、注意点：
+
+    当把一个字符串和其他数据类型相加的时候，过程有所不同。在其他数据类型的情况下，如布尔或者数字，   js引擎先将其他数据转换为一个字符串，然后在将其连接
+</code></pre></div><h6 id="_1-3、条件比较字符串"><a href="#_1-3、条件比较字符串" aria-hidden="true" class="header-anchor">#</a> 1.3、条件比较字符串</h6> <div class="language- extra-class"><pre class="language-text"><code>1、问题：想要比较两个字符串看看是否相同
+
+   解决方案：
+   
+   使用 ==  运算符来判断
+   
+   如果遇到大小写混合的例子可以先使用 toLowerCase 或 toUpperCase 将字符串转换为大写或者小写来比对，这两个方法不接受任何参数。
+   
+2、有时候，不想让自动数据发生转化，想要在比较的值拥有不同的数据类型时，比较失败，如果一个值是字符直接量，e
+</code></pre></div></div> <div class="page-edit"><!----> <!----></div> <!----> </div> <!----></div></div>
+    <script src="/assets/js/app.40389dcf.js" defer></script><script src="/assets/js/9.b11679bb.js" defer></script>
+  </body>
+</html>
